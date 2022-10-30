@@ -18,8 +18,13 @@ export default function TextForm(props) {
   };
   // Copy Function
   const handelCopyClick = () => {
-    let myBox = document.getElementById("myBox");
-    navigator.clipboard.writeText(myBox.value);
+    // let myBox = document.getElementById("myBox");
+    navigator.clipboard.writeText(text);
+  };
+  // ExtraSpaces Function
+  const handleExtraSpaces = () => {
+    let newText = text.split(/[ ]+/);
+    setText(newText.join(" "));
   };
   //
   const handelOnChange = (event) => {
@@ -27,17 +32,9 @@ export default function TextForm(props) {
   };
   //
   const [text, setText] = useState("");
-  // Logic for 0 words of blank textarea
-  let words = 0;
-  if (text === "") {
-    words = 0;
-  } else {
-    words = text.split(" ").length;
-  }
   //
   return (
     <>
-    
       <div
         className="container"
         style={{
@@ -60,17 +57,40 @@ export default function TextForm(props) {
             }}
           ></textarea>
         </div>
-        <button className="btn btn-primary mx-1" onClick={handelUpClick}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-1 my-1"
+          onClick={handelUpClick}
+        >
           Convert to uppercase
         </button>
-        <button className="btn btn-primary mx-1" onClick={handelLoClick}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-1 my-1"
+          onClick={handelLoClick}
+        >
           Convert to lowercase
         </button>
-        <button className="btn btn-primary mx-1" onClick={handelClearClick}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-1 my-1"
+          onClick={handelClearClick}
+        >
           Clear Text
         </button>
-        <button className="btn btn-primary mx-1" onClick={handelCopyClick}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-1 my-1"
+          onClick={handelCopyClick}
+        >
           Copy Text
+        </button>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-1 my-1"
+          onClick={handleExtraSpaces}
+        >
+          Remove Extra Spaces
         </button>
       </div>
       <div
@@ -81,12 +101,24 @@ export default function TextForm(props) {
       >
         <h2 className="my-3">Your text summary</h2>
         <p>
-          {" "}
-          {words} Words & {text.length} Characters
+          <p>
+            {
+              text.split(/\s+/).filter((element) => {
+                return element.length !== 0;
+              }).length
+            }{" "}
+            words and {text.length} characters
+          </p>
         </p>
-        <p>{words * 0.008} Minuter read </p>
+        <p>
+          {0.008 *
+            text.split(" ").filter((element) => {
+              return element.length !== 0;
+            }).length}{" "}
+          Minutes read{" "}
+        </p>
         <h3 className="my-3">Preview</h3>
-        <p>{text.length>0?text:'Enter text to preview it here.'}</p>
+        <p>{text.length > 0 ? text : "Nothing to preview!"}</p>
       </div>
     </>
   );

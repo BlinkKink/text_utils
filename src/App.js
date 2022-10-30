@@ -25,34 +25,24 @@ function App() {
       setMode("dark");
       document.body.style.backgroundColor = "#2d264a";
       showAlert("Dark mode enabled", "success");
-      document.title = "TextUtils - Dark mode";
       setTimeout(() => {
         document.title = "TextUtils";
       }, 2000);
     } else {
       setMode("light");
       document.body.style.backgroundColor = "white";
-      showAlert("Light mode enabled", "success");
-      document.title = "TextUtils - Light mode";
-      setTimeout(() => {
-        document.title = "TextUtils";
-      }, 2000);
     }
   };
 
   return (
     <>
       <Router>
-        <Navbar
-          title="TextUtils"
-          mode={mode}
-          toggleMode={toggle}
-          key={new Date()}
-        />
+        <Navbar title="TextUtils" mode={mode} toggle={toggle} />
         <Alert alert={alert} />
-        <div className="container my-3">
+        <div className="container">
           <Routes>
             <Route exact path="/about" element={<About mode={mode} />}></Route>
+
             <Route
               exact
               path="/"
